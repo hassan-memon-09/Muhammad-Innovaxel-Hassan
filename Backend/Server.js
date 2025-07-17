@@ -19,7 +19,8 @@ console.log('Environment Variables:', {
 // Log routes being mounted
 console.log('Mounting routes:');
 urlRoutes.stack.forEach((r) => {
-  console.log(`Route: ${r.route?.path}, Method: ${r.route?.methods}`);
+  const methods = r.route?.methods ? Object.keys(r.route.methods).join(', ') : 'N/A';
+  console.log(`Route: ${r.route?.path || 'N/A'}, Method: ${methods}`);
 });
 
 // Middleware

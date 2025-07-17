@@ -10,3 +10,4 @@ router.get('/shorten/:shortCode/stats', urlController.getUrlStats);
 router.get('/:shortCode', urlController.redirectToOriginalUrl);
 
 module.exports = router;
+

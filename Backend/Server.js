@@ -9,22 +9,35 @@ dotenv.config();
 
 const app = express();
 
+// Log environment variables (for debugging)
+console.log('Environment Variables:', {
+  MONGO_URI: process.env.MONGO_URI,
+  PORT: process.env.PORT,
+  FRONTEND_URL: process.env.FRONTEND_URL,
+});
 
+// Log routes being mounted
+console.log('Mounting routes:');
+urlRoutes.stack.forEach((r) => {
+  console.log(`Route: ${r.route?.path}, Method: ${r.route?.methods}`);
+});
+
+// Middleware
 app.use(cors({ origin: process.env.FRONTEND_URL }));
 app.use(express.json());
 
-
+// Serve React build
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 
-
+// Routes
 app.use('/api', urlRoutes);
 
-
+// Fallback to React's index.html for SPA routing
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
 });
 
-
+// Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
